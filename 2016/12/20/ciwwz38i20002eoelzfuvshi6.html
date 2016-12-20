@@ -86,7 +86,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="linux," />
 
 
 
@@ -102,15 +102,19 @@
 
 
 
-<meta name="description" content="把枯燥的代码变成丰富的软件">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Leon Miao">
-<meta property="og:url" content="https://github.com/miaoWhl/miaoWhl.github.io/index.html">
+<meta name="description" content="linux系统通过mail实现命令行发送外部邮件
+通过脚本实现一些功能，然后将结果通过邮件来发送，于是就百度了下实现，并记录下来。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux系统通过mail实现命令行发送外部邮件">
+<meta property="og:url" content="https://github.com/miaoWhl/miaoWhl.github.io/2016/12/20/ciwwz38i20002eoelzfuvshi6.html">
 <meta property="og:site_name" content="Leon Miao">
-<meta property="og:description" content="把枯燥的代码变成丰富的软件">
+<meta property="og:description" content="linux系统通过mail实现命令行发送外部邮件
+通过脚本实现一些功能，然后将结果通过邮件来发送，于是就百度了下实现，并记录下来。">
+<meta property="og:updated_time" content="2016-12-20T03:52:14.382Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Leon Miao">
-<meta name="twitter:description" content="把枯燥的代码变成丰富的软件">
+<meta name="twitter:title" content="linux系统通过mail实现命令行发送外部邮件">
+<meta name="twitter:description" content="linux系统通过mail实现命令行发送外部邮件
+通过脚本实现一些功能，然后将结果通过邮件来发送，于是就百度了下实现，并记录下来。">
 
 
 
@@ -128,7 +132,7 @@
   };
 </script>
 
-  <title> Leon Miao </title>
+  <title> linux系统通过mail实现命令行发送外部邮件 | Leon Miao </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -149,9 +153,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -238,9 +240,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -260,10 +262,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/12/20/ciwwz38i20002eoelzfuvshi6.html" itemprop="url">
-                  linux系统通过mail实现命令行发送外部邮件
-                </a>
+                linux系统通过mail实现命令行发送外部邮件
               
             
           </h1>
@@ -322,160 +321,77 @@
       
 
       
-        
-          <h1 id="linux系统通过mail实现命令行发送外部邮件"><a href="#linux系统通过mail实现命令行发送外部邮件" class="headerlink" title="linux系统通过mail实现命令行发送外部邮件"></a>linux系统通过mail实现命令行发送外部邮件</h1><hr>
-<p>通过脚本实现一些功能，然后将结果通过邮件来发送，于是就百度了下实现，并记录下来。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/20/ciwwz38i20002eoelzfuvshi6.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+        <h1 id="linux系统通过mail实现命令行发送外部邮件"><a href="#linux系统通过mail实现命令行发送外部邮件" class="headerlink" title="linux系统通过mail实现命令行发送外部邮件"></a>linux系统通过mail实现命令行发送外部邮件</h1><hr>
+<p>通过脚本实现一些功能，然后将结果通过邮件来发送，于是就百度了下实现，并记录下来。<br><a id="more"></a></p>
+<h3 id="修改mail-rc配置"><a href="#修改mail-rc配置" class="headerlink" title="修改mail.rc配置"></a>修改mail.rc配置</h3><p>首先需要修改mail.rc的配置，通过尝试发现修改这个文件需要root账号权限，其他账号只有只读权限，所以切换到root账号<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">su root</div></pre></td></tr></table></figure></p>
+<p>这个文件的路径在/etc/mail.rc<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/mail</div></pre></td></tr></table></figure></p>
+<p>在最底下添加，以163邮箱为例。</p>
+<blockquote>
+<p>set from=mail@163.com smtp=smtp.163.com smtp-auth-user=mail@163.com smtp-auth-password=pwd smtp-auth=login<br>然后按ESC输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">:wq</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>保存</p>
+<h2 id="配置完成"><a href="#配置完成" class="headerlink" title="配置完成"></a>配置完成</h2><h3 id="如何发送邮件"><a href="#如何发送邮件" class="headerlink" title="如何发送邮件"></a>如何发送邮件</h3><p>发送邮件的方式有三种：</p>
+<h5 id="直接使用shell当编辑器"><a href="#直接使用shell当编辑器" class="headerlink" title="直接使用shell当编辑器"></a>直接使用shell当编辑器</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mail -s &quot;Hello World&quot; send@mail.com</div><div class="line">Hello,this is the content of mail.</div></pre></td></tr></table></figure>
+<p>第一行中  -s表示邮件的主题，后面的send@mail.com 则是邮件的接收地址，输入完第一行后回车，进入邮件正文的编写，可以输入任何文字。<br>当邮件正文输入完后，按ctrl+D结束编辑，可能会提示CC的地址即邮件抄送地址，没有就直接回车发送成功。</p>
+<h5 id="使用管道进行邮件发送"><a href="#使用管道进行邮件发送" class="headerlink" title="使用管道进行邮件发送"></a>使用管道进行邮件发送</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echo &quot;Hello,this is the content of mail.&quot; | mail -s &quot;Hello World&quot; send@mail.com</div></pre></td></tr></table></figure>
+<p>echo中的就是邮件正文了。</p>
+<h5 id="使用文件发送"><a href="#使用文件发送" class="headerlink" title="使用文件发送"></a>使用文件发送</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mail -s &quot;Hello World&quot; send@mail.com &lt; file.txt</div></pre></td></tr></table></figure>
+<p>将file.txt中的内容作为正文发送</p>
+<hr>
+<p>使用中发现有时候会发送失败，总是554，后面发现可能是被作为垃圾文件处理，无法发送的原因。。。因为测试时候发送的是日志文件。</p>
+
+      
+    </div>
+
+    <div>
+      
         
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/15/ciwwz38hu0000eoelcn5ob4yn.html" itemprop="url">
-                  windows安装hexo并部署github
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-15T20:11:50+08:00" content="2016-12-15">
-              2016-12-15
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/系统部署/" itemprop="url" rel="index">
-                    <span itemprop="name">系统部署</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
+            <a href="/tags/linux/" rel="tag">#linux</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h1 id="搭建Hexo博客并部署到Github"><a href="#搭建Hexo博客并部署到Github" class="headerlink" title="搭建Hexo博客并部署到Github"></a>搭建Hexo博客并部署到Github</h1><hr>
-<p>虽然现在网上的搭建教程很多了，但是真的实际操作的时候仍然遇到了不少问题，所以作为第一篇文章当然是记录这个部署过程啦！</p>
-<p>大部分人使用的还是windows系统，所以这边使用的系统也是windows系统。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/15/ciwwz38hu0000eoelcn5ob4yn.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/15/ciwwz38hu0000eoelcn5ob4yn.html" rel="next" title="windows安装hexo并部署github">
+                <i class="fa fa-chevron-left"></i> windows安装hexo并部署github
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -483,6 +399,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -502,8 +422,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://oi6hf9gf3.bkt.clouddn.com/avatar.jpg"
@@ -582,6 +511,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linux系统通过mail实现命令行发送外部邮件"><span class="nav-number">1.</span> <span class="nav-text">linux系统通过mail实现命令行发送外部邮件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改mail-rc配置"><span class="nav-number">1.0.1.</span> <span class="nav-text">修改mail.rc配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置完成"><span class="nav-number">1.1.</span> <span class="nav-text">配置完成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何发送邮件"><span class="nav-number">1.1.1.</span> <span class="nav-text">如何发送邮件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#直接使用shell当编辑器"><span class="nav-number">1.1.1.0.1.</span> <span class="nav-text">直接使用shell当编辑器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用管道进行邮件发送"><span class="nav-number">1.1.1.0.2.</span> <span class="nav-text">使用管道进行邮件发送</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用文件发送"><span class="nav-number">1.1.1.0.3.</span> <span class="nav-text">使用文件发送</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -685,6 +625,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
