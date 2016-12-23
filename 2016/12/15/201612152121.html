@@ -124,7 +124,7 @@
 <meta property="og:image" content="http://oi6hf9gf3.bkt.clouddn.com/6.jpg">
 <meta property="og:image" content="http://oi6hf9gf3.bkt.clouddn.com/setting.jpg">
 <meta property="og:image" content="http://oi6hf9gf3.bkt.clouddn.com/sshkey.jpg">
-<meta property="og:updated_time" content="2016-12-20T07:03:00.369Z">
+<meta property="og:updated_time" content="2016-12-23T02:47:47.622Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="windows安装hexo并部署github">
 <meta name="twitter:description" content="虽然现在网上的搭建教程很多了，但是真的实际操作的时候仍然遇到了不少问题，所以作为第一篇文章当然是记录这个部署过程啦！
@@ -182,7 +182,8 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">孤独是自我选择的一种自我消遣方式</p>
+  <p class="site-subtitle">我很乐意去改变世界</p>
+  <p class="site-subtitle">但是他们不给我源代码</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -347,40 +348,40 @@
 <p>虽然现在网上的搭建教程很多了，但是真的实际操作的时候仍然遇到了不少问题，所以作为第一篇文章当然是记录这个部署过程啦！</p>
 <p>大部分人使用的还是windows系统，所以这边使用的系统也是windows系统。<br><a id="more"></a></p>
 <h3 id="安装nodejs"><a href="#安装nodejs" class="headerlink" title="安装nodejs"></a>安装nodejs</h3><p>第一步当然是安装nodejs了<br>直接百度或者直接访问官网：<a href="https://nodejs.org/en/" target="_blank" rel="external">https://nodejs.org/en/</a><br><img src="http://oi6hf9gf3.bkt.clouddn.com/nodejsdownload.jpg" alt="下载nodejs"><br>选择LTS的版本较稳定，下载完之后是一个msi的安装包，下一步下一步就可以了。</p>
-<p>安装完nodejs可以打开命令行验证下是否安装成功，输入node -v查看版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node -v</div></pre></td></tr></table></figure></p>
+<p>安装完nodejs可以打开命令行验证下是否安装成功，输入node -v查看版本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node -v</div></pre></td></tr></table></figure></p>
 <p>返回的是版本号，如果提示node不是命令之类的先查看下环境变量有没有配置。</p>
 <hr>
 <h3 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h3><p>同样直接百度或者官网：<a href="https://git-scm.com/downloads" target="_blank" rel="external">https://git-scm.com/downloads</a><br>因为这里是windows系统直接选择windows系统的安装，安装过程同样是下一步下一步。</p>
 <p>装完git建议安装TortoiseGit和中文包，个人感觉挺好用的。可至官网下载：<a href="https://tortoisegit.org/download/" target="_blank" rel="external">https://tortoisegit.org/download/</a></p>
 <hr>
-<h3 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h3><p>终于是要开始安装hexo了，因为安装了nodejs，所以可以用npm命令安装，因为安装了TortoiseGit也可以方便的在任意位置右键，选择Git Bash打开命令<br><img src="http://oi6hf9gf3.bkt.clouddn.com/%E6%89%93%E5%BC%80bash.jpg" alt="打开Bash"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g hexo</div></pre></td></tr></table></figure></p>
+<h3 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h3><p>终于是要开始安装hexo了，因为安装了nodejs，所以可以用npm命令安装，因为安装了TortoiseGit也可以方便的在任意位置右键，选择Git Bash打开命令<br><img src="http://oi6hf9gf3.bkt.clouddn.com/%E6%89%93%E5%BC%80bash.jpg" alt="打开Bash"><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g hexo</div></pre></td></tr></table></figure></p>
 <p>-g是全局安装</p>
-<p>安装完成后新建存放博客的文件夹<br>在新建的文件夹里右键打开Git Bash，输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo init</div></pre></td></tr></table></figure></p>
+<p>安装完成后新建存放博客的文件夹<br>在新建的文件夹里右键打开Git Bash，输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo init</div></pre></td></tr></table></figure></p>
 <p>Hexo 即会自动在目标文件夹建立网站所需要的所有文件。</p>
-<p>输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install</div></pre></td></tr></table></figure></p>
+<p>输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install</div></pre></td></tr></table></figure></p>
 <p>安装依赖包</p>
-<p>这样hexo就安装完成了。<br>现在先在本地看看效果。<br>输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo generate</div></pre></td></tr></table></figure></p>
-<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo g</div></pre></td></tr></table></figure></p>
-<p>hexo会自动生成静态文件，会生成一个public文件和.deploy_git文件，里面内容是一样的。<br>输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo server</div></pre></td></tr></table></figure></p>
-<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo s</div></pre></td></tr></table></figure></p>
+<p>这样hexo就安装完成了。<br>现在先在本地看看效果。<br>输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo generate</div></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo g</div></pre></td></tr></table></figure></p>
+<p>hexo会自动生成静态文件，会生成一个public文件和.deploy_git文件，里面内容是一样的。<br>输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo server</div></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo s</div></pre></td></tr></table></figure></p>
 <p>启动服务器，就可以通过localhost:4000访问了，通过ctrl c来停止。<br>至此hexo就安装完成了。</p>
 <hr>
 <h3 id="配置github"><a href="#配置github" class="headerlink" title="配置github"></a>配置github</h3><p>新建一个repository，命名为用户名+github.io，如图<br><img src="http://oi6hf9gf3.bkt.clouddn.com/repository_name.jpg" alt="repository名字"><br>一定要这种格式，包括大小写，不然会出现404的问题。<br>创建完之后复制git的clone路径：<br><img src="http://oi6hf9gf3.bkt.clouddn.com/gitlink.jpg" alt="git路径"></p>
 <p>打开hexo的文件夹，找到_config.yml配置文件<br><img src="http://oi6hf9gf3.bkt.clouddn.com/filelist.jpg" alt="fileList"></p>
 <p>修改如图位置的repo，不同版本可能略有不同。<br><img src="http://oi6hf9gf3.bkt.clouddn.com/config.jpg" alt="config"><br>如果前面的路径是https的不行可以试试换成ssh的路径，上图复制clone路径的时候点击右上角的Use SSH那个路径就可以。</p>
 <hr>
-<h3 id="配置SSH-Keys"><a href="#配置SSH-Keys" class="headerlink" title="配置SSH Keys"></a>配置SSH Keys</h3><p>在Git Bash输入以下指令（任意位置点击鼠标右键），检查是否已经存在了SSH keys。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ls -al ~/.ssh</div></pre></td></tr></table></figure></p>
+<h3 id="配置SSH-Keys"><a href="#配置SSH-Keys" class="headerlink" title="配置SSH Keys"></a>配置SSH Keys</h3><p>在Git Bash输入以下指令（任意位置点击鼠标右键），检查是否已经存在了SSH keys。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ls -al ~/.ssh</div></pre></td></tr></table></figure></p>
 <p>如果存在则删除文件就可以，文件在C盘用户-用户名下有一个.ssh文件夹<br><img src="http://oi6hf9gf3.bkt.clouddn.com/ssh.jpg" alt="SSH"></p>
-<p>输入以下指令（邮箱就是你注册Github时候的邮箱）后，回车：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C &quot;514989221@qq.com&quot;</div></pre></td></tr></table></figure></p>
-<p><img src="http://oi6hf9gf3.bkt.clouddn.com/2.jpg" alt="ssh-keygen"><br>然后它会提示要你输入passphrase（如上图，我没有输入直接回车，如果你输入的话，要记得，到时候会用到）<br>然后键入以下指令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-agent -s</div></pre></td></tr></table></figure></p>
-<p><img src="http://oi6hf9gf3.bkt.clouddn.com/3.jpg" alt="ssh-agent"><br>继续<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-add ~/.ssh/id_rsa</div></pre></td></tr></table></figure></p>
-<p>输入之后，可能会提示出错了，一般第一次会出错，第二次就不会。<br><img src="http://oi6hf9gf3.bkt.clouddn.com/4.jpg" alt="ssh-add"><br>如果出错了就输入如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">eval `ssh-agent -s`</div><div class="line">ssh-add</div></pre></td></tr></table></figure></p>
+<p>输入以下指令（邮箱就是你注册Github时候的邮箱）后，回车：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C <span class="string">"514989221@qq.com"</span></div></pre></td></tr></table></figure></p>
+<p><img src="http://oi6hf9gf3.bkt.clouddn.com/2.jpg" alt="ssh-keygen"><br>然后它会提示要你输入passphrase（如上图，我没有输入直接回车，如果你输入的话，要记得，到时候会用到）<br>然后键入以下指令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-agent <span class="_">-s</span></div></pre></td></tr></table></figure></p>
+<p><img src="http://oi6hf9gf3.bkt.clouddn.com/3.jpg" alt="ssh-agent"><br>继续<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-add ~/.ssh/id_rsa</div></pre></td></tr></table></figure></p>
+<p>输入之后，可能会提示出错了，一般第一次会出错，第二次就不会。<br><img src="http://oi6hf9gf3.bkt.clouddn.com/4.jpg" alt="ssh-add"><br>如果出错了就输入如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">eval</span> `ssh-agent <span class="_">-s</span>`</div><div class="line">ssh-add</div></pre></td></tr></table></figure></p>
 <p><img src="http://oi6hf9gf3.bkt.clouddn.com/5.jpg" alt="ssh-agent"><br><img src="http://oi6hf9gf3.bkt.clouddn.com/6.jpg" alt="ssh-add"><br>到这里就创建了key，然后就是在github里添加这个key了</p>
 <hr>
 <h3 id="添加Key到github"><a href="#添加Key到github" class="headerlink" title="添加Key到github"></a>添加Key到github</h3><p>点击git右上角的个人图标，选择setting：<br><img src="http://oi6hf9gf3.bkt.clouddn.com/setting.jpg" alt="setting"><br>点击personal settings里的SSH and GPG Keys 然后点击右上角的New SSH key，Title可以随便命名，然后Key就是刚刚上面.ssh文件夹中的id_rsa.pub文件，用编辑器打开，内容全部复制到Key中，保存即可<br><img src="http://oi6hf9gf3.bkt.clouddn.com/sshkey.jpg" alt="sshkey"></p>
-<p>最后还是测试一下，输入以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh -T git@github.com</div></pre></td></tr></table></figure></p>
+<p>最后还是测试一下，输入以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh -T git@github.com</div></pre></td></tr></table></figure></p>
 <p>可能会有警告，输入”yes”就可以了。<br>提示successful就可以了。</p>
-<h3 id="完成部署"><a href="#完成部署" class="headerlink" title="完成部署"></a>完成部署</h3><p>最后了输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo g</div><div class="line">hexo d</div></pre></td></tr></table></figure></p>
+<h3 id="完成部署"><a href="#完成部署" class="headerlink" title="完成部署"></a>完成部署</h3><p>最后了输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo g</div><div class="line">hexo d</div></pre></td></tr></table></figure></p>
 <p>就能传到github了，但是我hexo d的时候报错了，提示没有repository，如果你也遇到这种情况，就在hexo文件夹的.deploy_git中克隆下你的git的路径到这里，将.git文件夹复制到.deploy_git中，再hexo d应该就可以了。到这里就部署完成了，访问下用户名+github.io看看吧。</p>
 
       
@@ -492,7 +493,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

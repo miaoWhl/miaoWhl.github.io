@@ -108,7 +108,7 @@
 <meta property="og:url" content="https://github.com/miaoWhl/miaoWhl.github.io/2016/12/20/201612201130.html">
 <meta property="og:site_name" content="Leon Miao">
 <meta property="og:description" content="通过脚本实现一些功能，然后将结果通过邮件来发送，于是就百度了下实现，并记录下来。">
-<meta property="og:updated_time" content="2016-12-20T07:02:53.909Z">
+<meta property="og:updated_time" content="2016-12-23T02:48:14.444Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux系统通过mail实现命令行发送外部邮件">
 <meta name="twitter:description" content="通过脚本实现一些功能，然后将结果通过邮件来发送，于是就百度了下实现，并记录下来。">
@@ -164,7 +164,8 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">孤独是自我选择的一种自我消遣方式</p>
+  <p class="site-subtitle">我很乐意去改变世界</p>
+  <p class="site-subtitle">但是他们不给我源代码</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -327,21 +328,21 @@
       
         <hr>
 <p>通过脚本实现一些功能，然后将结果通过邮件来发送，于是就百度了下实现，并记录下来。<br><a id="more"></a></p>
-<h3 id="修改mail-rc配置"><a href="#修改mail-rc配置" class="headerlink" title="修改mail.rc配置"></a>修改mail.rc配置</h3><p>首先需要修改mail.rc的配置，通过尝试发现修改这个文件需要root账号权限，其他账号只有只读权限，所以切换到root账号<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">su root</div></pre></td></tr></table></figure></p>
-<p>这个文件的路径在/etc/mail.rc<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/mail</div></pre></td></tr></table></figure></p>
+<h3 id="修改mail-rc配置"><a href="#修改mail-rc配置" class="headerlink" title="修改mail.rc配置"></a>修改mail.rc配置</h3><p>首先需要修改mail.rc的配置，通过尝试发现修改这个文件需要root账号权限，其他账号只有只读权限，所以切换到root账号<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">su root</div></pre></td></tr></table></figure></p>
+<p>这个文件的路径在/etc/mail.rc<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/mail</div></pre></td></tr></table></figure></p>
 <p>在最底下添加，以163邮箱为例。</p>
 <blockquote>
 <p>set from=mail@163.com smtp=smtp.163.com smtp-auth-user=mail@163.com smtp-auth-password=pwd smtp-auth=login</p>
 </blockquote>
-<p>然后按ESC输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">:wq</div></pre></td></tr></table></figure></p>
+<p>然后按ESC输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">:wq</div></pre></td></tr></table></figure></p>
 <p>保存,配置完成</p>
 <hr>
 <h3 id="如何发送邮件"><a href="#如何发送邮件" class="headerlink" title="如何发送邮件"></a>如何发送邮件</h3><p>发送邮件的方式有三种：</p>
-<h5 id="直接使用shell当编辑器"><a href="#直接使用shell当编辑器" class="headerlink" title="直接使用shell当编辑器"></a>直接使用shell当编辑器</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mail -s &quot;Hello World&quot; send@mail.com</div><div class="line">Hello,this is the content of mail.</div></pre></td></tr></table></figure>
+<h5 id="直接使用shell当编辑器"><a href="#直接使用shell当编辑器" class="headerlink" title="直接使用shell当编辑器"></a>直接使用shell当编辑器</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mail <span class="_">-s</span> <span class="string">"Hello World"</span> send@mail.com</div><div class="line">Hello,this is the content of mail.</div></pre></td></tr></table></figure>
 <p>第一行中  -s表示邮件的主题，后面的send@mail.com 则是邮件的接收地址，输入完第一行后回车，进入邮件正文的编写，可以输入任何文字。<br>当邮件正文输入完后，按ctrl+D结束编辑，可能会提示CC的地址即邮件抄送地址，没有就直接回车发送成功。</p>
-<h5 id="使用管道进行邮件发送"><a href="#使用管道进行邮件发送" class="headerlink" title="使用管道进行邮件发送"></a>使用管道进行邮件发送</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echo &quot;Hello,this is the content of mail.&quot; | mail -s &quot;Hello World&quot; send@mail.com</div></pre></td></tr></table></figure>
+<h5 id="使用管道进行邮件发送"><a href="#使用管道进行邮件发送" class="headerlink" title="使用管道进行邮件发送"></a>使用管道进行邮件发送</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"Hello,this is the content of mail."</span> | mail <span class="_">-s</span> <span class="string">"Hello World"</span> send@mail.com</div></pre></td></tr></table></figure>
 <p>echo中的就是邮件正文了。</p>
-<h5 id="使用文件发送"><a href="#使用文件发送" class="headerlink" title="使用文件发送"></a>使用文件发送</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mail -s &quot;Hello World&quot; send@mail.com &lt; file.txt</div></pre></td></tr></table></figure>
+<h5 id="使用文件发送"><a href="#使用文件发送" class="headerlink" title="使用文件发送"></a>使用文件发送</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mail <span class="_">-s</span> <span class="string">"Hello World"</span> send@mail.com &lt; file.txt</div></pre></td></tr></table></figure>
 <p>将file.txt中的内容作为正文发送</p>
 <hr>
 <p>使用中发现有时候会发送失败，总是554，后面发现可能是被作为垃圾文件处理，无法发送的原因。。。因为测试时候发送的是日志文件。</p>
@@ -459,7 +460,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

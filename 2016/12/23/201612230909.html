@@ -1,0 +1,714 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linux,oracle," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="有时候Oracle中的无用数据量会很大，比如一些不能自动清理的系统日志表之类或者过段时间就不需要了的数据需要删除，这时候有一个定时任务就方便了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle编写定时Job，实现定时删除数据">
+<meta property="og:url" content="https://github.com/miaoWhl/miaoWhl.github.io/2016/12/23/201612230909.html">
+<meta property="og:site_name" content="Leon Miao">
+<meta property="og:description" content="有时候Oracle中的无用数据量会很大，比如一些不能自动清理的系统日志表之类或者过段时间就不需要了的数据需要删除，这时候有一个定时任务就方便了。">
+<meta property="og:updated_time" content="2016-12-23T03:26:09.154Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle编写定时Job，实现定时删除数据">
+<meta name="twitter:description" content="有时候Oracle中的无用数据量会很大，比如一些不能自动清理的系统日志表之类或者过段时间就不需要了的数据需要删除，这时候有一个定时任务就方便了。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Oracle编写定时Job，实现定时删除数据 | Leon Miao </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Leon Miao</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">我很乐意去改变世界</p>
+  <p class="site-subtitle">但是他们不给我源代码</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Oracle编写定时Job，实现定时删除数据
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-23T09:09:48+08:00" content="2016-12-23">
+              2016-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/23/201612230909.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/23/201612230909.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>有时候Oracle中的无用数据量会很大，比如一些不能自动清理的系统日志表之类或者过段时间就不需要了的数据需要删除，这时候有一个定时任务就方便了。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="查询系统job"><a href="#查询系统job" class="headerlink" title="查询系统job"></a>查询系统job</h3><p>通过下面语句可以查询系统中的job</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--相关视图</span></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_jobs;</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> all_jobs;</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> user_jobs;</div><div class="line"></div><div class="line"><span class="comment">-- 查询字段描述</span></div><div class="line"><span class="comment">/*</span></div><div class="line">字段（列）                  描述</div><div class="line">JOB                    任务的唯一标示号</div><div class="line">LOG_USER               提交任务的用户</div><div class="line">PRIV_USER              赋予任务权限的用户</div><div class="line">SCHEMA_USER            对任务作语法分析的用户模式</div><div class="line">LAST_DATE              最后一次成功运行任务的时间</div><div class="line">LAST_SEC               如HH24:MM:SS格式的last_date日期的小时，分钟和秒</div><div class="line">THIS_DATE              正在运行任务的开始时间，如果没有运行任务则为null</div><div class="line">THIS_SEC               如HH24:MM:SS格式的this_date日期的小时，分钟和秒</div><div class="line">NEXT_DATE              下一次定时运行任务的时间</div><div class="line">NEXT_SEC               如HH24:MM:SS格式的next_date日期的小时，分钟和秒</div><div class="line">TOTAL_TIME             该任务运行所需要的总时间，单位为秒</div><div class="line">BROKEN                 标志参数，Y标示任务中断，以后不会运行</div><div class="line">INTERVAL               用于计算下一运行时间的表达式</div><div class="line">FAILURES               任务运行连续没有成功的次数</div><div class="line">WHAT                   执行任务的PL/SQL块</div><div class="line">CURRENT_SESSION_LABEL  MLSLABEL 该任务的信任Oracle会话符</div><div class="line">CLEARANCE_HI           该任务可信任的Oracle最大间隙</div><div class="line">CLEARANCE_LO           MLSLABEL 该任务可信任的Oracle最小间隙</div><div class="line">NLS_ENV                任务运行的NLS会话设置</div><div class="line">MISC_ENV               任务运行的其他一些会话参数</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="comment">-- 正在运行job</span></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_jobs_running;</div></pre></td></tr></table></figure>
+<p>其中最重要的字段就是job 这个值就是我们操作job的id号，what 操作存储过程的名称，next_date 执行的时间，interval执行间隔</p>
+<hr>
+<h3 id="执行间隔interval-运行频率"><a href="#执行间隔interval-运行频率" class="headerlink" title="执行间隔interval 运行频率"></a>执行间隔interval 运行频率</h3><p>描述                        INTERVAL参数值<br>每天午夜12点                TRUNC(SYSDATE + 1)<br>每天早上8点30分             TRUNC(SYSDATE + 1) + （8<em>60+30）/(24</em>60)<br>每星期二中午12点            NEXT_DAY(TRUNC(SYSDATE ), ‘’TUESDAY’’ ) + 12/24<br>每个月第一天的午夜12点      TRUNC(LAST_DAY(SYSDATE ) + 1)<br>每个季度最后一天的晚上11点  TRUNC(ADD_MONTHS(SYSDATE + 2/24, 3 ), ‘Q’ ) -1/24<br>每星期六和日早上6点10分     RUNC(LEAST(NEXT_DAY(SYSDATE, ‘’SATURDAY”), NEXT_DAY(SYSDATE, “SUNDAY”))) + （6×60+10）/（24×60）</p>
+<h4 id="每秒钟执行次"><a href="#每秒钟执行次" class="headerlink" title="每秒钟执行次"></a>每秒钟执行次</h4><p>Interval =&gt; sysdate + 1/(24 <em> 60 </em> 60)<br>如果改成sysdate + 10/(24 <em> 60 </em> 60)就是10秒钟执行次</p>
+<h4 id="每分钟执行"><a href="#每分钟执行" class="headerlink" title="每分钟执行"></a>每分钟执行</h4><p>Interval =&gt; TRUNC(sysdate,’mi’) + 1/ (24<em>60)<br>如果改成TRUNC(sysdate,’mi’) + 10/ (24</em>60) 就是每10分钟执行次</p>
+<h4 id="每天定时执行"><a href="#每天定时执行" class="headerlink" title="每天定时执行"></a>每天定时执行</h4><p>例如：每天的凌晨1点执行<br>Interval =&gt; TRUNC(sysdate) + 1 +1/ (24)</p>
+<h4 id="每周定时执行"><a href="#每周定时执行" class="headerlink" title="每周定时执行"></a>每周定时执行</h4><p>例如：每周一凌晨1点执行<br>Interval =&gt; TRUNC(next_day(sysdate,’星期一’))+1/24</p>
+<h4 id="每月定时执行"><a href="#每月定时执行" class="headerlink" title="每月定时执行"></a>每月定时执行</h4><p>例如：每月1日凌晨1点执行<br>Interval =&gt;TRUNC(LAST_DAY(SYSDATE))+1+1/24</p>
+<h4 id="每季度定时执行"><a href="#每季度定时执行" class="headerlink" title="每季度定时执行"></a>每季度定时执行</h4><p>例如每季度的第一天凌晨1点执行<br>Interval =&gt; TRUNC(ADD_MONTHS(SYSDATE,3),’Q’) + 1/24</p>
+<h4 id="每半年定时执行"><a href="#每半年定时执行" class="headerlink" title="每半年定时执行"></a>每半年定时执行</h4><p>例如：每年7月1日和1月1日凌晨1点<br>Interval =&gt; ADD_MONTHS(trunc(sysdate,’yyyy’),6)+1/24</p>
+<h4 id="每年定时执行"><a href="#每年定时执行" class="headerlink" title="每年定时执行"></a>每年定时执行</h4><p>例如：每年1月1日凌晨1点执行<br>Interval =&gt;ADD_MONTHS(trunc(sysdate,’yyyy’),12)+1/24</p>
+<hr>
+<h3 id="如何创建一个定时任务"><a href="#如何创建一个定时任务" class="headerlink" title="如何创建一个定时任务"></a>如何创建一个定时任务</h3><p>我们以每10秒插入一条数据为例。</p>
+<h4 id="创建测试表"><a href="#创建测试表" class="headerlink" title="创建测试表"></a>创建测试表</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> tab_time(</div><div class="line">    <span class="keyword">current_time</span> <span class="keyword">timestamp</span></div><div class="line">);</div></pre></td></tr></table></figure>
+<h4 id="创建存储过程"><a href="#创建存储过程" class="headerlink" title="创建存储过程"></a>创建存储过程</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">or</span> <span class="keyword">replace</span> <span class="keyword">procedure</span> pro_job_print</div><div class="line"><span class="keyword">as</span></div><div class="line">   <span class="keyword">begin</span></div><div class="line">       <span class="keyword">insert</span> <span class="keyword">into</span> tab_time <span class="keyword">values</span>(<span class="keyword">sysdate</span>);</div><div class="line">   <span class="keyword">end</span>;</div></pre></td></tr></table></figure>
+<h4 id="创建job"><a href="#创建job" class="headerlink" title="创建job"></a>创建job</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 创建job</span></div><div class="line"><span class="keyword">declare</span></div><div class="line">   job1 <span class="built_in">number</span>;</div><div class="line"><span class="keyword">begin</span></div><div class="line">   dbms_job.submit(job1, <span class="string">'pro_job_print;'</span>, <span class="keyword">sysdate</span>, <span class="string">'sysdate+10/86400'</span>);<span class="comment">--每10插入一条记录</span></div><div class="line"><span class="keyword">end</span>;</div></pre></td></tr></table></figure>
+<p>使用dbms_job.submit方法过程，这个过程有五个参数：job、what、next_date、interval与no_parse。</p>
+<p>dbms_job.submit(<br>job       OUT binary_ineger,<br>What      IN  varchar2,<br>next_date IN  date,<br>interval  IN  varchar2,<br>no_parse  IN  booean:=FALSE)</p>
+<ul>
+<li>job参数是输出参数，由submit()过程返回的binary_ineger，这个值用来唯一标识一个工作。一般定义一个变量接收，可以去user_jobs视图查询job值。</li>
+<li>what参数是将被执行的PL/SQL代码块，存储过程名称等。</li>
+<li>next_date参数指识何时将运行这个工作。</li>
+<li>interval参数何时这个工作将被重执行。</li>
+<li>no_parse参数指示此工作在提交时或执行时是否应进行语法分析——true，默认值false。指示此PL/SQL代码在它第一次执行时应进行语法分析，而FALSE指示本PL/SQL代码应立即进行语法分析。</li>
+</ul>
+<h4 id="运行job"><a href="#运行job" class="headerlink" title="运行job"></a>运行job</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 运行job</span></div><div class="line"><span class="keyword">begin</span></div><div class="line">   dbms_job.run(<span class="number">23</span>);<span class="comment">--和select * from user_jobs; 中的job值对应，看what对应的过程</span></div><div class="line"><span class="keyword">end</span>;</div></pre></td></tr></table></figure>
+<h4 id="删除job"><a href="#删除job" class="headerlink" title="删除job"></a>删除job</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 删除一个job</span></div><div class="line"><span class="keyword">begin</span></div><div class="line">   dbms_job.remove(<span class="number">23</span>);<span class="comment">--和select * from user_jobs; 中的job值对应，看what对应的过程</span></div><div class="line"><span class="keyword">end</span>;</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="关于job任务数量和控制并发"><a href="#关于job任务数量和控制并发" class="headerlink" title="关于job任务数量和控制并发"></a>关于job任务数量和控制并发</h3><p>job_queue_process 表示oracle能够并发的job的数量，sqlplus中可以通过语句来查看oracle中job_queue_process的值。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--显示参数</span></div><div class="line"><span class="keyword">show</span> parameter job_queue_process;</div><div class="line"><span class="comment">--查询所有参数</span></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> v$parameter;</div><div class="line"><span class="comment">--查询oracle后台进程</span></div><div class="line"><span class="keyword">select</span> <span class="keyword">name</span>, description <span class="keyword">from</span> v$bgprocess;</div></pre></td></tr></table></figure></p>
+<p>当job_queue_process值为0时表示全部停止oracle的job，可以通过语句来调整启动oracle的job。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> job_queue_processes = <span class="number">10</span>;</div></pre></td></tr></table></figure></p>
+<p>如果将job_queue_processes 的值设置为1的话，那就是串行运行，即快速切换执行一个job任务。</p>
+<hr>
+<h3 id="job不运行的大概原因"><a href="#job不运行的大概原因" class="headerlink" title="job不运行的大概原因"></a>job不运行的大概原因</h3><h4 id="参数设置是否正确"><a href="#参数设置是否正确" class="headerlink" title="参数设置是否正确"></a>参数设置是否正确</h4><p>上面讲解了job的参数：与job相关的参数一个是job_queue_processes，这个是运行job时候所起的进程数，<br>当然系统里面job大于这个数值后，就会有排队等候的，最小值是0，表示不运行job，最大值是1000，在OS上对应的进程时SNPn，9i以后OS上管理job的进程叫CJQn。<br>可以使用下面这个SQL确定目前有几个SNP/CJQ在运行。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> v$bgprocess</div></pre></td></tr></table></figure></p>
+<p>这个paddr不为空的snp/cjq进程就是目前空闲的进程，有的表示正在工作的进程。<br>另外一个是job_queue_interval，范围在1–3600之间，单位是秒，这个是唤醒JOB的process，<br>因为每次snp运行完他就休息了，需要定期唤醒他，这个值不能太小，太小会影响数据库的性能。</p>
+<h4 id="查看运行时间是否异常"><a href="#查看运行时间是否异常" class="headerlink" title="查看运行时间是否异常"></a>查看运行时间是否异常</h4><p>使用下面的SQL查看job的的broken，last_date和next_date，last_date是指最近一次job运行成功的结束时间，<br>next_date是根据设置的频率计算的下次执行时间，根据这个信息就可以判断job上次是否正常，还可以判断下次的时间对不对，SQL如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_jobs;</div></pre></td></tr></table></figure></p>
+<p>有时候我们发现他的next_date是4000年1月1日，说明job要不就是在running，要不就是状态是break(broken=Y)，如果发现job的broken值为Y，<br>找用户了解一下，确定该job是否可以broken，如果不能broken，那就把broken值修改成N，修改再使用上面的SQL查看就发现它的last_date已经变了，job即可正常运行，修改broken状态的SQL如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">begin</span></div><div class="line">    DBMS_JOB.BROKEN(&lt;JOB_ID&gt;, <span class="literal">FALSE</span>);</div><div class="line"><span class="keyword">end</span>;</div></pre></td></tr></table></figure></p>
+<h4 id="确认job是否还在运行"><a href="#确认job是否还在运行" class="headerlink" title="确认job是否还在运行"></a>确认job是否还在运行</h4><p>使用下面的SQL查询是否job还在running<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_jobs_running;</div></pre></td></tr></table></figure></p>
+<p>如果发现job已经Run了很久了还没有结束，就要查原因了。<br>一般的job running时会锁定相关的相关的资源，可以查看一下v$access和v$locked_object这两个view。如果发现其他进程锁定了与job相关的object，包括package/function/procedure/table等资源，那么就要把其他进程删除，有必要的话，把job的进程也删除，再重新执行看看结果。</p>
+<h4 id="是否进程SNP死了"><a href="#是否进程SNP死了" class="headerlink" title="是否进程SNP死了"></a>是否进程SNP死了</h4><p>如果上面都正常，但是job还不run，怎么办？那我们要考虑把job进程重启一次，防止是SNP进程死了造成job不跑，指令如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> job_queue_processes = <span class="number">0</span>; <span class="comment">--关闭job进程，等待5--10秒钟</span></div><div class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> job_quene_processes = <span class="number">5</span>; <span class="comment">--恢复原来的值</span></div></pre></td></tr></table></figure></p>
+<h4 id="是否oracle的bug"><a href="#是否oracle的bug" class="headerlink" title="是否oracle的bug"></a>是否oracle的bug</h4><p>Oracle的BUG：Oracle9i里面有一个BUG，当计数器到497天时，刚好达到它的最大值，再计数就会变成-1，继续计数就变成0了，然后计数器将不再跑了。如果碰到这种情况就得重启数据库，但是其他的Oracle7345和Oracle8i的数据库没有发现这个问题。</p>
+<h4 id="是否程序问题"><a href="#是否程序问题" class="headerlink" title="是否程序问题"></a>是否程序问题</h4><p>数据库上的检查基本上就这多，如果job运行还有问题，那需要看一下是否是程序本身的问题，比如处理的资料量大，或者网络速度慢等造成运行时过长，那就需要具体情况具体分析了。我们可以通过下面的SQL手工执行一下job看看：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">begin</span></div><div class="line">    dbms_job.run(&lt;job&gt;_ID)</div><div class="line"><span class="keyword">end</span>;</div></pre></td></tr></table></figure></p>
+<p>如果发现job执行不正常，就要结合程序具体分析一下。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag">#linux</a>
+          
+            <a href="/tags/oracle/" rel="tag">#oracle</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/20/201612201626.html" rel="next" title="oracle数据库定时备份">
+                <i class="fa fa-chevron-left"></i> oracle数据库定时备份
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/23/201612230909.html"
+           data-title="Oracle编写定时Job，实现定时删除数据" data-url="https://github.com/miaoWhl/miaoWhl.github.io/2016/12/23/201612230909.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://oi6hf9gf3.bkt.clouddn.com/avatar.jpg"
+               alt="光之白刃" />
+          <p class="site-author-name" itemprop="name">光之白刃</p>
+          <p class="site-description motion-element" itemprop="description">把枯燥的代码变成丰富的软件</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/miaoWhl" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/miaohaoliang" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/miaohaoliang" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询系统job"><span class="nav-number">1.1.</span> <span class="nav-text">查询系统job</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行间隔interval-运行频率"><span class="nav-number">1.2.</span> <span class="nav-text">执行间隔interval 运行频率</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#每秒钟执行次"><span class="nav-number">1.2.1.</span> <span class="nav-text">每秒钟执行次</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每分钟执行"><span class="nav-number">1.2.2.</span> <span class="nav-text">每分钟执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每天定时执行"><span class="nav-number">1.2.3.</span> <span class="nav-text">每天定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每周定时执行"><span class="nav-number">1.2.4.</span> <span class="nav-text">每周定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每月定时执行"><span class="nav-number">1.2.5.</span> <span class="nav-text">每月定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每季度定时执行"><span class="nav-number">1.2.6.</span> <span class="nav-text">每季度定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每半年定时执行"><span class="nav-number">1.2.7.</span> <span class="nav-text">每半年定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每年定时执行"><span class="nav-number">1.2.8.</span> <span class="nav-text">每年定时执行</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何创建一个定时任务"><span class="nav-number">1.3.</span> <span class="nav-text">如何创建一个定时任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建测试表"><span class="nav-number">1.3.1.</span> <span class="nav-text">创建测试表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建存储过程"><span class="nav-number">1.3.2.</span> <span class="nav-text">创建存储过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建job"><span class="nav-number">1.3.3.</span> <span class="nav-text">创建job</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行job"><span class="nav-number">1.3.4.</span> <span class="nav-text">运行job</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除job"><span class="nav-number">1.3.5.</span> <span class="nav-text">删除job</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于job任务数量和控制并发"><span class="nav-number">1.4.</span> <span class="nav-text">关于job任务数量和控制并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#job不运行的大概原因"><span class="nav-number">1.5.</span> <span class="nav-text">job不运行的大概原因</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参数设置是否正确"><span class="nav-number">1.5.1.</span> <span class="nav-text">参数设置是否正确</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看运行时间是否异常"><span class="nav-number">1.5.2.</span> <span class="nav-text">查看运行时间是否异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#确认job是否还在运行"><span class="nav-number">1.5.3.</span> <span class="nav-text">确认job是否还在运行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#是否进程SNP死了"><span class="nav-number">1.5.4.</span> <span class="nav-text">是否进程SNP死了</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#是否oracle的bug"><span class="nav-number">1.5.5.</span> <span class="nav-text">是否oracle的bug</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#是否程序问题"><span class="nav-number">1.5.6.</span> <span class="nav-text">是否程序问题</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">光之白刃</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"miaohaoliang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

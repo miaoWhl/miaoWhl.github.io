@@ -108,7 +108,7 @@
 <meta property="og:url" content="https://github.com/miaoWhl/miaoWhl.github.io/2016/12/20/201612201405.html">
 <meta property="og:site_name" content="Leon Miao">
 <meta property="og:description" content="经常会遇到写了一些脚本，需要做定时运行的，可以用crontab来实现。">
-<meta property="og:updated_time" content="2016-12-20T07:02:47.655Z">
+<meta property="og:updated_time" content="2016-12-23T02:48:42.999Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用crontab进行定时任务">
 <meta name="twitter:description" content="经常会遇到写了一些脚本，需要做定时运行的，可以用crontab来实现。">
@@ -164,7 +164,8 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">孤独是自我选择的一种自我消遣方式</p>
+  <p class="site-subtitle">我很乐意去改变世界</p>
+  <p class="site-subtitle">但是他们不给我源代码</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -327,20 +328,20 @@
       
         <hr>
 <p>经常会遇到写了一些脚本，需要做定时运行的，可以用crontab来实现。<br><a id="more"></a></p>
-<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><p>先查看crond是否启动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service crond status</div></pre></td></tr></table></figure></p>
-<p>可以看到类似如下输出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crond (pid  1697) 正在运行...</div></pre></td></tr></table></figure></p>
-<p>启动，停止，重启<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">service crond start</div><div class="line">service crond stop</div><div class="line">service crond restart</div></pre></td></tr></table></figure></p>
+<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><p>先查看crond是否启动：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service crond status</div></pre></td></tr></table></figure></p>
+<p>可以看到类似如下输出<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crond (pid  1697) 正在运行...</div></pre></td></tr></table></figure></p>
+<p>启动，停止，重启<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">service crond start</div><div class="line">service crond stop</div><div class="line">service crond restart</div></pre></td></tr></table></figure></p>
 <p>首先确保服务是启动的，然后开始添加定时任务。</p>
 <hr>
-<h3 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#编辑</div><div class="line">crontab -e</div><div class="line">#删除</div><div class="line">crontab -r</div><div class="line">#列出</div><div class="line">crontab -l</div></pre></td></tr></table></figure>
+<h3 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#编辑</span></div><div class="line">crontab <span class="_">-e</span></div><div class="line"><span class="comment">#删除</span></div><div class="line">crontab -r</div><div class="line"><span class="comment">#列出</span></div><div class="line">crontab <span class="_">-l</span></div></pre></td></tr></table></figure>
 <hr>
 <h3 id="通过编辑命令进入文件添加定时任务"><a href="#通过编辑命令进入文件添加定时任务" class="headerlink" title="通过编辑命令进入文件添加定时任务"></a>通过编辑命令进入文件添加定时任务</h3><h4 id="基本格式"><a href="#基本格式" class="headerlink" title="基本格式"></a>基本格式</h4><p>*   *   *   *   *   command<br>分  时  日  月  周  命令<br>第1列表示分钟1～59 每分钟用<em>或者 </em>/1表示<br>第2列表示小时1～23（0表示0点）<br>第3列表示日期1～31<br>第4列表示月份1～12<br>第5列标识号星期0～6（0表示星期天）<br>第6列要运行的命令 </p>
-<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>每月每天每小时的第 0 分钟执行一次 /bin/ls :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0 * * * * /bin/ls</div></pre></td></tr></table></figure></p>
-<p>在 12 月内, 每天的早上 6 点到 12 点中，每隔 20 分钟执行一次 /usr/bin/backup :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">*/20 6-12 * 12 * /usr/bin/backup</div></pre></td></tr></table></figure></p>
-<p>周一到周五每天下午 5:00 寄一封信给 alex_mail_name :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0 17 * * 1-5 mail -s &quot;hi&quot; alex_mail_name &lt; /tmp/maildata</div></pre></td></tr></table></figure></p>
-<p>每月每天的午夜 0 点 20 分, 2 点 20 分, 4 点 20 分….执行 echo “haha”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">20 0-23/2 * * * echo &quot;haha&quot;</div></pre></td></tr></table></figure></p>
-<p>晚上11点到早上8点之间每两个小时和早上8点运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0 23-7/2，8 * * * date</div></pre></td></tr></table></figure></p>
-<p>正常账户添加的是自己账户的定时任务，root账户可以指定其他账户，编辑其他账户的定时任务，使用如下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab -u user -l</div></pre></td></tr></table></figure></p>
+<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>每月每天每小时的第 0 分钟执行一次 /bin/ls :<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0 * * * * /bin/ls</div></pre></td></tr></table></figure></p>
+<p>在 12 月内, 每天的早上 6 点到 12 点中，每隔 20 分钟执行一次 /usr/bin/backup :<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">*/20 6-12 * 12 * /usr/bin/backup</div></pre></td></tr></table></figure></p>
+<p>周一到周五每天下午 5:00 寄一封信给 alex_mail_name :<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0 17 * * 1-5 mail <span class="_">-s</span> <span class="string">"hi"</span> alex_mail_name &lt; /tmp/maildata</div></pre></td></tr></table></figure></p>
+<p>每月每天的午夜 0 点 20 分, 2 点 20 分, 4 点 20 分….执行 echo “haha”<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">20 0-23/2 * * * <span class="built_in">echo</span> <span class="string">"haha"</span></div></pre></td></tr></table></figure></p>
+<p>晚上11点到早上8点之间每两个小时和早上8点运行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0 23-7/2，8 * * * date</div></pre></td></tr></table></figure></p>
+<p>正常账户添加的是自己账户的定时任务，root账户可以指定其他账户，编辑其他账户的定时任务，使用如下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab -u user <span class="_">-l</span></div></pre></td></tr></table></figure></p>
 <h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
 <li>当程式在你所指定的时间执行后，系统会寄一封信给你，显示该程式执行的内容，若是你不希望收到这样的信，请在每一行空一格之后加上 &gt; /dev/null 2&gt;&amp;1 即可。</li>
 <li>%在crontab中被认为是newline，要用\来escape才行。比如crontab执行行中，如果有”date +%Y%m%d”，必须替换为：”date +\%Y\%m\%d”</li>
@@ -470,7 +471,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

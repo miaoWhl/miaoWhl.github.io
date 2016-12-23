@@ -108,7 +108,7 @@
 <meta property="og:url" content="https://github.com/miaoWhl/miaoWhl.github.io/2016/12/20/201612201626.html">
 <meta property="og:site_name" content="Leon Miao">
 <meta property="og:description" content="oracle数据库要备份就需要设置目录，将电脑的目录映射到oracle中，记录下设置过程">
-<meta property="og:updated_time" content="2016-12-20T09:19:39.204Z">
+<meta property="og:updated_time" content="2016-12-23T02:49:58.555Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="oracle数据库定时备份">
 <meta name="twitter:description" content="oracle数据库要备份就需要设置目录，将电脑的目录映射到oracle中，记录下设置过程">
@@ -164,7 +164,8 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">孤独是自我选择的一种自我消遣方式</p>
+  <p class="site-subtitle">我很乐意去改变世界</p>
+  <p class="site-subtitle">但是他们不给我源代码</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -326,15 +327,15 @@
 
       
         <p>oracle数据库要备份就需要设置目录，将电脑的目录映射到oracle中，记录下设置过程</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="设置备份目录"><a href="#设置备份目录" class="headerlink" title="设置备份目录"></a>设置备份目录</h3><h4 id="切换账户"><a href="#切换账户" class="headerlink" title="切换账户"></a>切换账户</h4><p>首先需要切换到oracle的用户<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">su - oracle</div></pre></td></tr></table></figure></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="设置备份目录"><a href="#设置备份目录" class="headerlink" title="设置备份目录"></a>设置备份目录</h3><h4 id="切换账户"><a href="#切换账户" class="headerlink" title="切换账户"></a>切换账户</h4><p>首先需要切换到oracle的用户<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">su - oracle</div></pre></td></tr></table></figure></p>
 <p>su命令和su -命令最大的本质区别就是：<br>前者只是切换了root身份，但Shell环境仍然是普通用户的Shell；<br>而后者连用户和Shell环境一起切换成root身份了。</p>
-<h4 id="使用sys账户连接数据库"><a href="#使用sys账户连接数据库" class="headerlink" title="使用sys账户连接数据库"></a>使用sys账户连接数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlplus sys/manager as sysdba</div></pre></td></tr></table></figure>
-<h4 id="使用命令查看是否有创建目录"><a href="#使用命令查看是否有创建目录" class="headerlink" title="使用命令查看是否有创建目录"></a>使用命令查看是否有创建目录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from dba_directories;</div></pre></td></tr></table></figure>
-<h4 id="创建backup目录，实际路径为-home-oracle-backup"><a href="#创建backup目录，实际路径为-home-oracle-backup" class="headerlink" title="创建backup目录，实际路径为/home/oracle/backup"></a>创建backup目录，实际路径为/home/oracle/backup</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">create or replace directory backup as &apos;/home/oracle/backup&apos;;</div><div class="line"></div><div class="line">Directory created.</div></pre></td></tr></table></figure>
-<h4 id="使用查看命令查看是否创建"><a href="#使用查看命令查看是否创建" class="headerlink" title="使用查看命令查看是否创建"></a>使用查看命令查看是否创建</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SYS			       BACKUP</div><div class="line">/home/oracle/backup</div></pre></td></tr></table></figure>
+<h4 id="使用sys账户连接数据库"><a href="#使用sys账户连接数据库" class="headerlink" title="使用sys账户连接数据库"></a>使用sys账户连接数据库</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlplus sys/manager as sysdba</div></pre></td></tr></table></figure>
+<h4 id="使用命令查看是否有创建目录"><a href="#使用命令查看是否有创建目录" class="headerlink" title="使用命令查看是否有创建目录"></a>使用命令查看是否有创建目录</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_directories;</div></pre></td></tr></table></figure>
+<h4 id="创建backup目录，实际路径为-home-oracle-backup"><a href="#创建backup目录，实际路径为-home-oracle-backup" class="headerlink" title="创建backup目录，实际路径为/home/oracle/backup"></a>创建backup目录，实际路径为/home/oracle/backup</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">or</span> <span class="keyword">replace</span> <span class="keyword">directory</span> <span class="keyword">backup</span> <span class="keyword">as</span> <span class="string">'/home/oracle/backup'</span>;</div><div class="line"></div><div class="line">Directory created.</div></pre></td></tr></table></figure>
+<h4 id="使用查看命令查看是否创建"><a href="#使用查看命令查看是否创建" class="headerlink" title="使用查看命令查看是否创建"></a>使用查看命令查看是否创建</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SYS			       BACKUP</div><div class="line">/home/oracle/backup</div></pre></td></tr></table></figure>
 <p>看到上面信息说明创建完成。</p>
 <hr>
-<h3 id="编写备份脚本"><a href="#编写备份脚本" class="headerlink" title="编写备份脚本"></a>编写备份脚本</h3><p>备份的命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">expdp oracle/oracle directory=backup dumpfile=oracle.dmp logfile=oracle.log schemas=oracle</div></pre></td></tr></table></figure></p>
+<h3 id="编写备份脚本"><a href="#编写备份脚本" class="headerlink" title="编写备份脚本"></a>编写备份脚本</h3><p>备份的命令如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">expdp oracle/oracle directory=<span class="keyword">backup</span> <span class="keyword">dumpfile</span>=oracle.dmp <span class="keyword">logfile</span>=oracle.log schemas=<span class="keyword">oracle</span></div></pre></td></tr></table></figure></p>
 <h4 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h4><ul>
 <li>expdp：备份命令</li>
 <li>oracle/oracle：数据库账户密码</li>
@@ -344,7 +345,7 @@
 <li>schemas：模式，即所要导出的用户</li>
 </ul>
 <p>知道导出命令就需要根据命令编写脚本。</p>
-<h4 id="备份脚本"><a href="#备份脚本" class="headerlink" title="备份脚本"></a>备份脚本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">#设置变量</div><div class="line">dumpfile=&quot;oracle&quot;$(date &apos;+%Y%m%d&apos;)&quot;_&quot;$(date &apos;+%H%M%S&apos;)&quot;.dmp&quot;</div><div class="line">logfile=&quot;oracle&quot;$(date &apos;+%Y%m%d&apos;)&quot;_&quot;$(date &apos;+%H%M%S&apos;)&quot;.log&quot;</div><div class="line">expdp oracle/oracle directory=backup dumpfile=$dumpfile logfile=$logfile schemas=oracle</div><div class="line">#自动删除7天前的备份</div><div class="line">find /home/oracle/backup -mtime +7 -type f -name *.log -exec rm -f &#123;&#125; \;</div><div class="line">find /home/oracle/backup -mtime +7 -type f -name *.dmp -exec rm -f &#123;&#125; \;</div></pre></td></tr></table></figure>
+<h4 id="备份脚本"><a href="#备份脚本" class="headerlink" title="备份脚本"></a>备份脚本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#设置变量</span></div><div class="line">dumpfile=<span class="string">"oracle"</span>$(date <span class="string">'+%Y%m%d'</span>)<span class="string">"_"</span>$(date <span class="string">'+%H%M%S'</span>)<span class="string">".dmp"</span></div><div class="line">logfile=<span class="string">"oracle"</span>$(date <span class="string">'+%Y%m%d'</span>)<span class="string">"_"</span>$(date <span class="string">'+%H%M%S'</span>)<span class="string">".log"</span></div><div class="line">expdp oracle/oracle directory=backup dumpfile=<span class="variable">$dumpfile</span> logfile=<span class="variable">$logfile</span> schemas=oracle</div><div class="line"><span class="comment">#自动删除7天前的备份</span></div><div class="line">find /home/oracle/backup -mtime +7 -type f -name *.log -exec rm <span class="_">-f</span> &#123;&#125; \;</div><div class="line">find /home/oracle/backup -mtime +7 -type f -name *.dmp -exec rm <span class="_">-f</span> &#123;&#125; \;</div></pre></td></tr></table></figure>
 <h5 id="删除命令说明"><a href="#删除命令说明" class="headerlink" title="删除命令说明"></a>删除命令说明</h5><ul>
 <li>/home/oracle/backup:设置查找的目录</li>
 <li>-mtime +7:设置时间为7天前</li>
@@ -353,7 +354,7 @@
 <li>-exec rm -f:查找完毕后执行删除操作</li>
 </ul>
 <hr>
-<h3 id="数据库还原"><a href="#数据库还原" class="headerlink" title="数据库还原"></a>数据库还原</h3><h4 id="使用命令"><a href="#使用命令" class="headerlink" title="使用命令"></a>使用命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">impdp oracletest/oracletest directory=backup dumpfile=oracle.dmp logfile=oracle.log </div><div class="line">remap_schema=ORACLE:ORACLETEST remap_tablespace=ORACLE:ORACLETEST table_exists_action=replace</div></pre></td></tr></table></figure>
+<h3 id="数据库还原"><a href="#数据库还原" class="headerlink" title="数据库还原"></a>数据库还原</h3><h4 id="使用命令"><a href="#使用命令" class="headerlink" title="使用命令"></a>使用命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">impdp oracletest/oracletest directory=backup dumpfile=oracle.dmp logfile=oracle.log </div><div class="line">remap_schema=ORACLE:ORACLETEST remap_tablespace=ORACLE:ORACLETEST table_exists_action=replace</div></pre></td></tr></table></figure>
 <h4 id="参数说明-1"><a href="#参数说明-1" class="headerlink" title="参数说明"></a>参数说明</h4><ul>
 <li>impdp：导入命令</li>
 <li>oracle/oracle：要导入的数据库账户密码</li>
@@ -403,6 +404,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/23/201612230909.html" rel="prev" title="Oracle编写定时Job，实现定时删除数据">
+                Oracle编写定时Job，实现定时删除数据 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -474,7 +479,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
