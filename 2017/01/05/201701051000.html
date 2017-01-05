@@ -108,7 +108,7 @@
 <meta property="og:url" content="https://github.com/miaoWhl/miaoWhl.github.io/2017/01/05/201701051000.html">
 <meta property="og:site_name" content="Leon Miao">
 <meta property="og:description" content="编写了一个shell脚本来执行一些命令，手动测试了好多次都没问题，在一台机子上通过crontab定时去执行发现也正常，本以为这就正常了，结果换了一台机子定时运行却出现了问题。">
-<meta property="og:updated_time" content="2017-01-05T02:30:13.868Z">
+<meta property="og:updated_time" content="2017-01-05T02:36:09.006Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="crontab使用中的异常问题">
 <meta name="twitter:description" content="编写了一个shell脚本来执行一些命令，手动测试了好多次都没问题，在一台机子上通过crontab定时去执行发现也正常，本以为这就正常了，结果换了一台机子定时运行却出现了问题。">
@@ -346,8 +346,6 @@
 </ol>
 <p>注：该命令通常用命令“.”来替代。<br>如：source /etc/profile 与 . /etc/profile 是等效的。<br>或者通过export命令声明<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> CLASSPATH=./JAVA_HOME/lib;<span class="variable">$JAVA_HOME</span>/jre/lib</div></pre></td></tr></table></figure></p>
 <p>通过export定义变量是临时的，只对当前shell有效。<br>除了在脚本中引入环境变量的方式，还可以在设置crontab的时候通过切换来带上用户环境。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">crontab <span class="_">-e</span></div><div class="line">0 0 1 1 su - user /home/user/test.sh</div></pre></td></tr></table></figure></p>
-<hr>
-<h3 id="crontab特殊符号"><a href="#crontab特殊符号" class="headerlink" title="crontab特殊符号"></a>crontab特殊符号</h3><p>在crontab中%是有特殊含义的，表示换行的意思。如果要用的话必须进行转义\%，如经常用的date ‘+%Y%m%d’在crontab里是不会执行的，应该换成date ‘+\%Y\%m\%d’`。</p>
 
       
     </div>
@@ -560,7 +558,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#crontab与环境变量"><span class="nav-number">1.</span> <span class="nav-text">crontab与环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#crontab特殊符号"><span class="nav-number">2.</span> <span class="nav-text">crontab特殊符号</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#crontab与环境变量"><span class="nav-number">1.</span> <span class="nav-text">crontab与环境变量</span></a></li></ol></div>
             
           </div>
         </section>
