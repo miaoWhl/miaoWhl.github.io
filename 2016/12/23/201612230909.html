@@ -108,7 +108,7 @@
 <meta property="og:url" content="https://github.com/miaoWhl/miaoWhl.github.io/2016/12/23/201612230909.html">
 <meta property="og:site_name" content="Leon Miao">
 <meta property="og:description" content="有时候Oracle中的无用数据量会很大，比如一些不能自动清理的系统日志表之类或者过段时间就不需要了的数据需要删除，这时候有一个定时任务就方便了。">
-<meta property="og:updated_time" content="2016-12-23T03:35:56.548Z">
+<meta property="og:updated_time" content="2017-01-05T01:59:20.886Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Oracle编写定时Job，实现定时任务">
 <meta name="twitter:description" content="有时候Oracle中的无用数据量会很大，比如一些不能自动清理的系统日志表之类或者过段时间就不需要了的数据需要删除，这时候有一个定时任务就方便了。">
@@ -137,6 +137,16 @@
   
 
 
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f4ffc34c561896f994967d6fc238a494";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -326,8 +336,9 @@
       
 
       
-        <p>有时候Oracle中的无用数据量会很大，比如一些不能自动清理的系统日志表之类或者过段时间就不需要了的数据需要删除，这时候有一个定时任务就方便了。</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="查询系统job"><a href="#查询系统job" class="headerlink" title="查询系统job"></a>查询系统job</h3><p>通过下面语句可以查询系统中的job</p>
+        <hr>
+<p>有时候Oracle中的无用数据量会很大，比如一些不能自动清理的系统日志表之类或者过段时间就不需要了的数据需要删除，这时候有一个定时任务就方便了。<br><a id="more"></a></p>
+<h3 id="查询系统job"><a href="#查询系统job" class="headerlink" title="查询系统job"></a>查询系统job</h3><p>通过下面语句可以查询系统中的job</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--相关视图</span></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_jobs;</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> all_jobs;</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> user_jobs;</div><div class="line"></div><div class="line"><span class="comment">-- 查询字段描述</span></div><div class="line"><span class="comment">/*</span></div><div class="line">字段（列）                  描述</div><div class="line">JOB                    任务的唯一标示号</div><div class="line">LOG_USER               提交任务的用户</div><div class="line">PRIV_USER              赋予任务权限的用户</div><div class="line">SCHEMA_USER            对任务作语法分析的用户模式</div><div class="line">LAST_DATE              最后一次成功运行任务的时间</div><div class="line">LAST_SEC               如HH24:MM:SS格式的last_date日期的小时，分钟和秒</div><div class="line">THIS_DATE              正在运行任务的开始时间，如果没有运行任务则为null</div><div class="line">THIS_SEC               如HH24:MM:SS格式的this_date日期的小时，分钟和秒</div><div class="line">NEXT_DATE              下一次定时运行任务的时间</div><div class="line">NEXT_SEC               如HH24:MM:SS格式的next_date日期的小时，分钟和秒</div><div class="line">TOTAL_TIME             该任务运行所需要的总时间，单位为秒</div><div class="line">BROKEN                 标志参数，Y标示任务中断，以后不会运行</div><div class="line">INTERVAL               用于计算下一运行时间的表达式</div><div class="line">FAILURES               任务运行连续没有成功的次数</div><div class="line">WHAT                   执行任务的PL/SQL块</div><div class="line">CURRENT_SESSION_LABEL  MLSLABEL 该任务的信任Oracle会话符</div><div class="line">CLEARANCE_HI           该任务可信任的Oracle最大间隙</div><div class="line">CLEARANCE_LO           MLSLABEL 该任务可信任的Oracle最小间隙</div><div class="line">NLS_ENV                任务运行的NLS会话设置</div><div class="line">MISC_ENV               任务运行的其他一些会话参数</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="comment">-- 正在运行job</span></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_jobs_running;</div></pre></td></tr></table></figure>
 <p>其中最重要的字段就是job 这个值就是我们操作job的id号，what 操作存储过程的名称，next_date 执行的时间，interval执行间隔</p>
 <hr>
@@ -384,6 +395,27 @@
     <div>
       
         
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>一起来重构世界吧！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.jpg" alt="光之白刃 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="光之白刃 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
 
       
     </div>
@@ -411,6 +443,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/01/05/201701051000.html" rel="prev" title="crontab使用中的异常问题">
+                crontab使用中的异常问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -423,6 +459,12 @@
 
 
     <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
       
     </div>
   </div>
@@ -481,7 +523,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -556,7 +598,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询系统job"><span class="nav-number">1.1.</span> <span class="nav-text">查询系统job</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行间隔interval-运行频率"><span class="nav-number">1.2.</span> <span class="nav-text">执行间隔interval 运行频率</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#每秒钟执行次"><span class="nav-number">1.2.1.</span> <span class="nav-text">每秒钟执行次</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每分钟执行"><span class="nav-number">1.2.2.</span> <span class="nav-text">每分钟执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每天定时执行"><span class="nav-number">1.2.3.</span> <span class="nav-text">每天定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每周定时执行"><span class="nav-number">1.2.4.</span> <span class="nav-text">每周定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每月定时执行"><span class="nav-number">1.2.5.</span> <span class="nav-text">每月定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每季度定时执行"><span class="nav-number">1.2.6.</span> <span class="nav-text">每季度定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每半年定时执行"><span class="nav-number">1.2.7.</span> <span class="nav-text">每半年定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每年定时执行"><span class="nav-number">1.2.8.</span> <span class="nav-text">每年定时执行</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何创建一个定时任务"><span class="nav-number">1.3.</span> <span class="nav-text">如何创建一个定时任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建测试表"><span class="nav-number">1.3.1.</span> <span class="nav-text">创建测试表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建存储过程"><span class="nav-number">1.3.2.</span> <span class="nav-text">创建存储过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建job"><span class="nav-number">1.3.3.</span> <span class="nav-text">创建job</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行job"><span class="nav-number">1.3.4.</span> <span class="nav-text">运行job</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除job"><span class="nav-number">1.3.5.</span> <span class="nav-text">删除job</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于job任务数量和控制并发"><span class="nav-number">1.4.</span> <span class="nav-text">关于job任务数量和控制并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#job不运行的大概原因"><span class="nav-number">1.5.</span> <span class="nav-text">job不运行的大概原因</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参数设置是否正确"><span class="nav-number">1.5.1.</span> <span class="nav-text">参数设置是否正确</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看运行时间是否异常"><span class="nav-number">1.5.2.</span> <span class="nav-text">查看运行时间是否异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#确认job是否还在运行"><span class="nav-number">1.5.3.</span> <span class="nav-text">确认job是否还在运行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#是否进程SNP死了"><span class="nav-number">1.5.4.</span> <span class="nav-text">是否进程SNP死了</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#是否oracle的bug"><span class="nav-number">1.5.5.</span> <span class="nav-text">是否oracle的bug</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#是否程序问题"><span class="nav-number">1.5.6.</span> <span class="nav-text">是否程序问题</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询系统job"><span class="nav-number">1.</span> <span class="nav-text">查询系统job</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行间隔interval-运行频率"><span class="nav-number">2.</span> <span class="nav-text">执行间隔interval 运行频率</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#每秒钟执行次"><span class="nav-number">2.1.</span> <span class="nav-text">每秒钟执行次</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每分钟执行"><span class="nav-number">2.2.</span> <span class="nav-text">每分钟执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每天定时执行"><span class="nav-number">2.3.</span> <span class="nav-text">每天定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每周定时执行"><span class="nav-number">2.4.</span> <span class="nav-text">每周定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每月定时执行"><span class="nav-number">2.5.</span> <span class="nav-text">每月定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每季度定时执行"><span class="nav-number">2.6.</span> <span class="nav-text">每季度定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每半年定时执行"><span class="nav-number">2.7.</span> <span class="nav-text">每半年定时执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每年定时执行"><span class="nav-number">2.8.</span> <span class="nav-text">每年定时执行</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何创建一个定时任务"><span class="nav-number">3.</span> <span class="nav-text">如何创建一个定时任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建测试表"><span class="nav-number">3.1.</span> <span class="nav-text">创建测试表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建存储过程"><span class="nav-number">3.2.</span> <span class="nav-text">创建存储过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建job"><span class="nav-number">3.3.</span> <span class="nav-text">创建job</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行job"><span class="nav-number">3.4.</span> <span class="nav-text">运行job</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除job"><span class="nav-number">3.5.</span> <span class="nav-text">删除job</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于job任务数量和控制并发"><span class="nav-number">4.</span> <span class="nav-text">关于job任务数量和控制并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#job不运行的大概原因"><span class="nav-number">5.</span> <span class="nav-text">job不运行的大概原因</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参数设置是否正确"><span class="nav-number">5.1.</span> <span class="nav-text">参数设置是否正确</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看运行时间是否异常"><span class="nav-number">5.2.</span> <span class="nav-text">查看运行时间是否异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#确认job是否还在运行"><span class="nav-number">5.3.</span> <span class="nav-text">确认job是否还在运行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#是否进程SNP死了"><span class="nav-number">5.4.</span> <span class="nav-text">是否进程SNP死了</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#是否oracle的bug"><span class="nav-number">5.5.</span> <span class="nav-text">是否oracle的bug</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#是否程序问题"><span class="nav-number">5.6.</span> <span class="nav-text">是否程序问题</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
@@ -575,7 +617,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -709,6 +751,9 @@
   
 
   
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
 
 </body>
 </html>
