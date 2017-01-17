@@ -102,22 +102,16 @@
 
 
 
-<meta name="description" content="通常会有需要几个数据库互通的需求，尝试研究了下，特此记录，主要使用oracle gateway。">
+<meta name="description" content="上篇文章进行了ORACLE连接SQLSERVER的配置，这篇对于MYSQL和ORACLE的配置。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="异构数据库的数据互通配置（oracle-sqlserver）">
-<meta property="og:url" content="https://github.com/miaoWhl/miaoWhl.github.io/2017/01/16/201701161136.html">
+<meta property="og:title" content="异构数据库的数据互通配置（oracle-mysql)">
+<meta property="og:url" content="https://github.com/miaoWhl/miaoWhl.github.io/2017/01/16/201701161647.html">
 <meta property="og:site_name" content="Leon Miao">
-<meta property="og:description" content="通常会有需要几个数据库互通的需求，尝试研究了下，特此记录，主要使用oracle gateway。">
-<meta property="og:image" content="http://oi6hf9gf3.bkt.clouddn.com/setup.png">
-<meta property="og:image" content="http://oi6hf9gf3.bkt.clouddn.com/setup1.png">
-<meta property="og:image" content="http://oi6hf9gf3.bkt.clouddn.com/setup3.png">
-<meta property="og:image" content="http://oi6hf9gf3.bkt.clouddn.com/setup4.png">
-<meta property="og:image" content="http://oi6hf9gf3.bkt.clouddn.com/setup5.png">
-<meta property="og:updated_time" content="2017-01-16T09:44:57.452Z">
+<meta property="og:description" content="上篇文章进行了ORACLE连接SQLSERVER的配置，这篇对于MYSQL和ORACLE的配置。">
+<meta property="og:updated_time" content="2017-01-17T02:25:09.123Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="异构数据库的数据互通配置（oracle-sqlserver）">
-<meta name="twitter:description" content="通常会有需要几个数据库互通的需求，尝试研究了下，特此记录，主要使用oracle gateway。">
-<meta name="twitter:image" content="http://oi6hf9gf3.bkt.clouddn.com/setup.png">
+<meta name="twitter:title" content="异构数据库的数据互通配置（oracle-mysql)">
+<meta name="twitter:description" content="上篇文章进行了ORACLE连接SQLSERVER的配置，这篇对于MYSQL和ORACLE的配置。">
 
 
 
@@ -135,7 +129,7 @@
   };
 </script>
 
-  <title> 异构数据库的数据互通配置（oracle-sqlserver） | Leon Miao </title>
+  <title> 异构数据库的数据互通配置（oracle-mysql) | Leon Miao </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -276,7 +270,7 @@
             
             
               
-                异构数据库的数据互通配置（oracle-sqlserver）
+                异构数据库的数据互通配置（oracle-mysql)
               
             
           </h1>
@@ -288,7 +282,7 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-01-16T11:36:48+08:00" content="2017-01-16">
+            <time itemprop="dateCreated" datetime="2017-01-16T16:47:27+08:00" content="2017-01-16">
               2017-01-16
             </time>
           </span>
@@ -318,8 +312,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2017/01/16/201701161136.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/16/201701161136.html" itemprop="commentsCount"></span>
+                <a href="/2017/01/16/201701161647.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/16/201701161647.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -343,45 +337,43 @@
 
       
         <hr>
-<p>通常会有需要几个数据库互通的需求，尝试研究了下，特此记录，主要使用oracle gateway。<br><a id="more"></a></p>
-<h3 id="环境及准备"><a href="#环境及准备" class="headerlink" title="环境及准备"></a>环境及准备</h3><p>涉及三个服务器：</p>
-<p>ORACLE DB服务器：<br>    OS：CenterOS6.5 + ORACLE 11g</p>
+<p>上篇文章进行了ORACLE连接SQLSERVER的配置，这篇对于MYSQL和ORACLE的配置。<br><a id="more"></a></p>
+<h3 id="环境及准备"><a href="#环境及准备" class="headerlink" title="环境及准备"></a>环境及准备</h3><p>ORACLE DB服务器：<br>    OS：CenterOS6.5 + ORACLE 11g</p>
 <p>oracle gateway（透明网关）服务器：<br>    OS：WINDOWS SERVER 2012</p>
-<p>SQLSERVER服务器：<br>    OS: WINDOWS SERVER 2012 + SQLSERVER 2008</p>
-<p>主要介绍gateway和数据库不安装在一台电脑上，网上很多都是安装在一台电脑上，而且坑很多，都是没经过实践就丢上来了。。。</p>
+<p>MYSQL服务器：<br>    OS: WINDOWS SERVER 2012 + MYSQL</p>
 <hr>
-<h3 id="安装oracle-gateway"><a href="#安装oracle-gateway" class="headerlink" title="安装oracle gateway"></a>安装oracle gateway</h3><p>gateway的安装比较简单，下一步就可以了<br>将下载的文件解压,双击setup安装</p>
-<p><img src="http://oi6hf9gf3.bkt.clouddn.com/setup.png" alt="setup"></p>
-<p><img src="http://oi6hf9gf3.bkt.clouddn.com/setup1.png" alt="setup1"></p>
-<p>一路下一步</p>
-<p><img src="http://oi6hf9gf3.bkt.clouddn.com/setup3.png" alt="setup2"></p>
-<p>选择SQL Server,有需要也可以把ODBC也勾选上，后续如果连接MYSQL有用。</p>
-<p><img src="http://oi6hf9gf3.bkt.clouddn.com/setup4.png" alt="setup3"></p>
-<p>填写下SQL SERVER的相关信息，这边的信息填完会生成一个文件，默认在安装路径下，dg4msql/admin/initdg4msql.ora，配置生成的其实就是这个变量HS_FDS_CONNECT_INFO，是一个连接字符串，根据不同的SQLSERVER版本写法有所不同，直接配置的不一定就是正确的。如果后面连接的时候报错了可以关注下看看是不是这个变量错了。比如我就遇到了。<br>然后就是安装。安装完会提示配监听，可以先按默认的一路下一步，后面通过配置文件修改。</p>
-<p><img src="http://oi6hf9gf3.bkt.clouddn.com/setup5.png" alt="setup4"></p>
-<p>至此安装完成</p>
+<h3 id="安装mysql-ODBC驱动"><a href="#安装mysql-ODBC驱动" class="headerlink" title="安装mysql ODBC驱动"></a>安装mysql ODBC驱动</h3><p>去官网下载对应版本位数的ODBC驱动<br><a href="https://downloads.mysql.com/archives/c-odbc/" target="_blank" rel="external">mysql ODBC驱动</a><br>在安装的时候一直出现了错误：</p>
+<blockquote>
+<p>因为存在系统错误代码126：找不到指定的模块。…\myodbc5s.dll</p>
+</blockquote>
+<p>百度后基本的解决方案都是说要安装VC++2010,下载后安装发现还是不行<br><a href="https://www.microsoft.com/zh-CN/download/details.aspx?id=14632" target="_blank" rel="external">Microsoft Visual C++ 2010 可再发行组件包 (x64)</a><br><a href="https://www.microsoft.com/zh-cn/download/details.aspx?id=5555&amp;751be11f-ede8-5a0c-058c-2ee190a24fa6=True" target="_blank" rel="external">Microsoft Visual C++ 2010 可再发行组件包 (x86)</a><br>通过搜索发现服务器上缺失了msvcp120.dll一系列的dll。<br>又进过一轮百度后发现还要安装2013版的<br><a href="https://www.microsoft.com/zh-cn/download/confirmation.aspx?id=40784" target="_blank" rel="external">Visual C++ Redistributable Packages for Visual Studio 2013</a><br>安装完之后终于成功安装上了MYSQL的ODBC驱动</p>
 <hr>
-<h3 id="oracle-gateway-透明网关配置"><a href="#oracle-gateway-透明网关配置" class="headerlink" title="oracle gateway 透明网关配置"></a>oracle gateway 透明网关配置</h3><p>正常安装完，默认会生成一个initdg4msql.ora配置文件，命名规则是init+SID的形式，所以默认的SID就是dg4msql（旧版本可能是tg4msql.org)<br>可以直接使用这个文件进行配置也可以新建一个文件配置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># This is a customized agent init file that contains the HS parameters</div><div class="line"># that are needed for the Database Gateway for Microsoft SQL Server</div><div class="line"></div><div class="line">#</div><div class="line"># HS init parameters</div><div class="line">#</div><div class="line">HS_FDS_CONNECT_INFO=10.10.10.2,1433//test01</div><div class="line">HS_FDS_TRACE_LEVEL=OFF</div><div class="line">HS_FDS_RECOVERY_ACCOUNT=RECOVER</div><div class="line">HS_FDS_RECOVERY_PWD=RECOVER</div></pre></td></tr></table></figure></p>
-<p>HS_FDS_CONNECT_INFO的设置方式有不同格式，可能也和数据库版本有关系，有些写法会报错，我试的是SQLSERVER2008<br>格式是IP,端口//数据库名<br>其他参数没深究，目前不太清楚具体作用。</p>
+<h3 id="配置ODBC数据源"><a href="#配置ODBC数据源" class="headerlink" title="配置ODBC数据源"></a>配置ODBC数据源</h3><p>MYSQL ODBC的数据源配置比较简单，主要就几个字段：<br>Data Source Name:ODBC数据源名称（可以随便取，后面会用到）<br>Description:描述<br>TCP/IP Server:ip地址，本地可以用localhost<br>User：数据库用户名<br>Password:密码<br>Database：要连的数据库</p>
+<p>点击下test，弹出Connecttion Successful说明配置成功。<br>这里配置的数据源必须是系统的数据源，用用户的不行，会报错找不到ODBC驱动。</p>
 <hr>
-<h3 id="oracle-gateway监听配置"><a href="#oracle-gateway监听配置" class="headerlink" title="oracle gateway监听配置"></a>oracle gateway监听配置</h3><p>这里配的监听是gateway的监听，网上有一种做法是把gateway安装到oracle的目录下，就和oracle数据库共用一个监听。<br>进入gateway的安装路径下的network\admin，找到listener.ora，打开编辑，可以参考dg4msql\admin\listener.ora.sample<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"># listener.ora Network Configuration File: D:\product\11.2.0\tg_1\network\admin\listener.ora</div><div class="line"># Generated by Oracle configuration tools.</div><div class="line"></div><div class="line">LISTENER =</div><div class="line">  (DESCRIPTION_LIST =</div><div class="line">    (DESCRIPTION =</div><div class="line">      (ADDRESS = (PROTOCOL = TCP)(HOST = 10.10.10.1)(PORT = 1521))</div><div class="line">      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))</div><div class="line">    )</div><div class="line">  )</div><div class="line"></div><div class="line">SID_LIST_LISTENER=</div><div class="line">    (SID_LIST=</div><div class="line">        (SID_DESC=</div><div class="line">           (SID_NAME=dg4msql)</div><div class="line">           (ORACLE_HOME=D:\product\11.2.0\tg_1)</div><div class="line">           (PROGRAM=dg4msql)</div><div class="line">        )</div><div class="line">    )</div><div class="line"></div><div class="line">ADR_BASE_LISTENER = D:\product\11.2.0\tg_1</div></pre></td></tr></table></figure></p>
-<p>这边的ORACLE_HOME对应的是gateway的安装目录。</p>
-<p>如果是和ORACLE安装在一起，应该可以直接修改oracle的这个文件，在SID_LIST_LISTENER，SID_LIST中添加这段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(SID_DESC=</div><div class="line">    (SID_NAME=dg4msql)</div><div class="line">    (ORACLE_HOME=D:\product\11.2.0\tg_1)</div><div class="line">     (PROGRAM=dg4msql)</div><div class="line">)</div></pre></td></tr></table></figure></p>
-<p>不过没试过。。。</p>
+<h3 id="oracle-gateway-透明网关配置"><a href="#oracle-gateway-透明网关配置" class="headerlink" title="oracle gateway 透明网关配置"></a>oracle gateway 透明网关配置</h3><p>和sqlserver的initdg4msql.ora配置文件不同，连接MYSQL通过ODBC，使用的是hs\admin下的initdg4odbc.ora，命名规则也是init+SID的形式，所以默认的SID就是dg4odbc。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"># This is a sample agent init file that contains the HS parameters that are</div><div class="line"># needed for the Database Gateway for ODBC</div><div class="line"></div><div class="line">#</div><div class="line"># HS init parameters</div><div class="line">#</div><div class="line">HS_FDS_CONNECT_INFO = &lt;odbc data_source_name&gt;</div><div class="line">HS_FDS_TRACE_LEVEL = &lt;trace_level&gt;</div><div class="line"></div><div class="line"></div><div class="line">#</div><div class="line"># Environment variables required for the non-Oracle system</div><div class="line">#</div><div class="line">#set &lt;envvar&gt;=&lt;value&gt;</div></pre></td></tr></table></figure>
+<p>HS_FDS_CONNECT_INFO就是ODBC数据源新建的DSN（Data Source Name）<br>HS_FDS_TRACE_LEVEL是跟踪级别，一般设置OFF，需要跟踪问题的话可以配置为”Debug”，跟踪日志文件存放在”\hs\trace”目录下</p>
+<hr>
+<h3 id="oracle-gateway监听配置"><a href="#oracle-gateway监听配置" class="headerlink" title="oracle gateway监听配置"></a>oracle gateway监听配置</h3><p>这里配的监听是gateway的监听<br>进入gateway的安装路径下的network\admin，找到listener.ora，打开编辑，可以参考hs\admin\listener.ora.sample<br>在SID_LIST_LISTENER，SID_LIST中添加这段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(SID_DESC=</div><div class="line">    (SID_NAME=dg4odbc)</div><div class="line">    (ORACLE_HOME=D:\product\11.2.0\tg_1)</div><div class="line">    (PROGRAM=dg4odbc)</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>这边的ORACLE_HOME对应的是gateway的安装目录。<br>对于上次配置的sqlserver，会存在两个SID_DESC，这时候的listener.ora的配置是存在缩进问题，同一级必须有相同的缩进，否则会报错参数问题等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">SID_LIST_LISTENER=</div><div class="line">  (SID_LIST=</div><div class="line">      (SID_DESC=</div><div class="line">         (SID_NAME=dg4msql)</div><div class="line">         (ORACLE_HOME=D:\product\11.2.0\tg_1)</div><div class="line">         (PROGRAM=dg4msql)</div><div class="line">      )</div><div class="line">      (SID_DESC=</div><div class="line">         (SID_NAME=dg4odbc)</div><div class="line">         (ORACLE_HOME=D:\product\11.2.0\tg_1)</div><div class="line">         (PROGRAM=dg4odbc)</div><div class="line">      )</div><div class="line">  )</div></pre></td></tr></table></figure>
 <hr>
 <h3 id="重启gateway监听"><a href="#重启gateway监听" class="headerlink" title="重启gateway监听"></a>重启gateway监听</h3><p>进入gateway安装路径的bin重启<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> BIN</div><div class="line">lsnrctl stop</div><div class="line">lsnrctl start</div></pre></td></tr></table></figure></p>
 <p>如果启动的时候有提示不支持服务之类的，应该是listener.ora问题，看下NETWORK\ADMIN下是否有listener.ora文件，写法是否正确。</p>
 <hr>
-<h3 id="配置ORACLE数据库tnsname-ora"><a href="#配置ORACLE数据库tnsname-ora" class="headerlink" title="配置ORACLE数据库tnsname.ora"></a>配置ORACLE数据库tnsname.ora</h3><p>在数据库的服务器，ORACLE安装路径下的NETWORK\ADMIN配置tnsname.ora<br>添加如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">dg4msql = </div><div class="line">(DESCRIPTION=</div><div class="line">      (ADDRESS=</div><div class="line">         (PROTOCOL=TCP)</div><div class="line">         (HOST=10.10.10.2)</div><div class="line">         (PORT=1521)</div><div class="line">      )</div><div class="line">      (CONNECT_DATA=</div><div class="line">         (SID=dg4msql))</div><div class="line">      (HS=OK) #一定要这个</div><div class="line">    )</div></pre></td></tr></table></figure></p>
+<h3 id="配置ORACLE数据库tnsname-ora"><a href="#配置ORACLE数据库tnsname-ora" class="headerlink" title="配置ORACLE数据库tnsname.ora"></a>配置ORACLE数据库tnsname.ora</h3><p>在数据库的服务器，ORACLE安装路径下的NETWORK\ADMIN配置tnsname.ora<br>添加如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">dg4odbc = </div><div class="line">    (DESCRIPTION=</div><div class="line">        (ADDRESS=</div><div class="line">            (PROTOCOL=TCP)</div><div class="line">            (HOST=10.10.10.2)</div><div class="line">            (PORT=1521)</div><div class="line">        )</div><div class="line">        (CONNECT_DATA=</div><div class="line">            (SID=dg4odbc))</div><div class="line">        (HS=OK) #一定要这个</div><div class="line">    )</div></pre></td></tr></table></figure></p>
 <hr>
-<h3 id="创建数据库连接"><a href="#创建数据库连接" class="headerlink" title="创建数据库连接"></a>创建数据库连接</h3><p>创建语句有两种一种不带public一直带public，猜测带public的应该是所有用户连接都可以用，不带的只能创建的用户能用<br>具体没尝试过，有兴趣的可以试试。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">database</span> <span class="keyword">link</span> mssql <span class="keyword">connect</span> <span class="keyword">to</span> <span class="string">"sa"</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">"123456"</span> <span class="keyword">using</span> <span class="string">'dg4msql'</span>;</div><div class="line"><span class="keyword">create</span> <span class="keyword">public</span> <span class="keyword">database</span> <span class="keyword">link</span> mssql <span class="keyword">connect</span> <span class="keyword">to</span> <span class="string">"sa"</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">"123456"</span> <span class="keyword">using</span> <span class="string">'dg4msql'</span>;</div></pre></td></tr></table></figure></p>
+<h3 id="创建数据库连接"><a href="#创建数据库连接" class="headerlink" title="创建数据库连接"></a>创建数据库连接</h3><p>创建语句有两种一种不带public一直带public，猜测带public的应该是所有用户连接都可以用，不带的只能创建的用户能用<br>具体没尝试过，有兴趣的可以试试。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">database</span> <span class="keyword">link</span> mysqltest <span class="keyword">connect</span> <span class="keyword">to</span> <span class="string">"root"</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">"123456"</span> <span class="keyword">using</span> <span class="string">'dg4odbc'</span>;</div><div class="line"><span class="keyword">create</span> <span class="keyword">public</span> <span class="keyword">database</span> <span class="keyword">link</span> mysqltest <span class="keyword">connect</span> <span class="keyword">to</span> <span class="string">"root"</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">"123456"</span> <span class="keyword">using</span> <span class="string">'dg4odbc'</span>;</div></pre></td></tr></table></figure></p>
 <p>可以通过如下两个语句查询创建的dplink<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> owner,object_name <span class="keyword">from</span> dba_objects <span class="keyword">where</span> object_type=<span class="string">'DATABASE LINK'</span>;</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_db_links;</div></pre></td></tr></table></figure></p>
-<p>如果想要删除连接，可以用如下语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">drop</span> <span class="keyword">database</span> <span class="keyword">link</span> mssql;</div><div class="line"><span class="keyword">drop</span> <span class="keyword">public</span> <span class="keyword">database</span> <span class="keyword">link</span> mssql;</div></pre></td></tr></table></figure></p>
+<p>如果想要删除连接，可以用如下语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">drop</span> <span class="keyword">database</span> <span class="keyword">link</span> mysqltest;</div><div class="line"><span class="keyword">drop</span> <span class="keyword">public</span> <span class="keyword">database</span> <span class="keyword">link</span> mysqltest;</div></pre></td></tr></table></figure></p>
 <p>如果创建的时候有public删除的时候也要有public否则会报找不到这个连接。</p>
 <hr>
-<h3 id="测试连接"><a href="#测试连接" class="headerlink" title="测试连接"></a>测试连接</h3><p>连接上oracle使用查询语句查询sqlserver的表<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dbo.sysobjects@mssql;</div></pre></td></tr></table></figure></p>
-<p>通过@连接名的形式查询。<br>执行这条语句时，实际上是通过tnsname.ora配置的mssql转到gateway的服务器上，gateway服务器的监听接收到请求后，再通过initdg4msql.ora配置的HS_FDS_CONNECT_INFO信息转到sqlserver数据库上。<br>如果有返回值则表示设置没问题了。<br>如果有报错，比如说无效的连接字符串之类的，可以看下initdg4msql.ora文件的HS_FDS_CONNECT_INFO变量值是否写法有问题，尝试用其他的写法试试。</p>
-<p>对于oracle通过ODBC连接MYSQL，下次再试。</p>
+<h3 id="测试连接"><a href="#测试连接" class="headerlink" title="测试连接"></a>测试连接</h3><p>连接上oracle使用查询语句查询mysql的表<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">test</span>@mysqltest;</div></pre></td></tr></table></figure></p>
+<p>通过@连接名的形式查询。<br>执行这条语句时，实际上是通过tnsname.ora配置的mysqltest转到gateway的服务器上，gateway服务器的监听接收到请求后，再通过initdg4odbc.ora配置的HS_FDS_CONNECT_INFO信息转到ODBC上。<br>如果有返回值则表示设置没问题了。</p>
+<p>发现在查询的时候每次都要带一个@很麻烦，可以通过create synonym语句创建别名<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">synonym</span> link_test <span class="keyword">for</span> <span class="keyword">test</span>@mysqltest;</div><div class="line"><span class="keyword">create</span> <span class="keyword">public</span> <span class="keyword">synonym</span> link_test <span class="keyword">for</span> <span class="keyword">test</span>@mysqltest;</div></pre></td></tr></table></figure></p>
+<p>可以通过drop删除别名<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">drop</span> <span class="keyword">synonym</span> link_test;</div><div class="line"><span class="keyword">drop</span> <span class="keyword">public</span> <span class="keyword">synonym</span> link_test;</div></pre></td></tr></table></figure></p>
+<p>对于mysql的查询，字段需要加双引号才能匹配，不然就报错invalid identifier。<br>百度好久没百度到。。。</p>
 
       
     </div>
@@ -433,17 +425,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/05/201701051000.html" rel="next" title="crontab使用中的异常问题">
-                <i class="fa fa-chevron-left"></i> crontab使用中的异常问题
+              <a href="/2017/01/16/201701161136.html" rel="next" title="异构数据库的数据互通配置（oracle-sqlserver）">
+                <i class="fa fa-chevron-left"></i> 异构数据库的数据互通配置（oracle-sqlserver）
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/16/201701161647.html" rel="prev" title="异构数据库的数据互通配置（oracle-mysql)">
-                异构数据库的数据互通配置（oracle-mysql) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -475,8 +463,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/16/201701161136.html"
-           data-title="异构数据库的数据互通配置（oracle-sqlserver）" data-url="https://github.com/miaoWhl/miaoWhl.github.io/2017/01/16/201701161136.html">
+      <div class="ds-thread" data-thread-key="2017/01/16/201701161647.html"
+           data-title="异构数据库的数据互通配置（oracle-mysql)" data-url="https://github.com/miaoWhl/miaoWhl.github.io/2017/01/16/201701161647.html">
       </div>
     
   </div>
@@ -596,7 +584,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境及准备"><span class="nav-number">1.</span> <span class="nav-text">环境及准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装oracle-gateway"><span class="nav-number">2.</span> <span class="nav-text">安装oracle gateway</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oracle-gateway-透明网关配置"><span class="nav-number">3.</span> <span class="nav-text">oracle gateway 透明网关配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oracle-gateway监听配置"><span class="nav-number">4.</span> <span class="nav-text">oracle gateway监听配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重启gateway监听"><span class="nav-number">5.</span> <span class="nav-text">重启gateway监听</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置ORACLE数据库tnsname-ora"><span class="nav-number">6.</span> <span class="nav-text">配置ORACLE数据库tnsname.ora</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建数据库连接"><span class="nav-number">7.</span> <span class="nav-text">创建数据库连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试连接"><span class="nav-number">8.</span> <span class="nav-text">测试连接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境及准备"><span class="nav-number">1.</span> <span class="nav-text">环境及准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装mysql-ODBC驱动"><span class="nav-number">2.</span> <span class="nav-text">安装mysql ODBC驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置ODBC数据源"><span class="nav-number">3.</span> <span class="nav-text">配置ODBC数据源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oracle-gateway-透明网关配置"><span class="nav-number">4.</span> <span class="nav-text">oracle gateway 透明网关配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oracle-gateway监听配置"><span class="nav-number">5.</span> <span class="nav-text">oracle gateway监听配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重启gateway监听"><span class="nav-number">6.</span> <span class="nav-text">重启gateway监听</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置ORACLE数据库tnsname-ora"><span class="nav-number">7.</span> <span class="nav-text">配置ORACLE数据库tnsname.ora</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建数据库连接"><span class="nav-number">8.</span> <span class="nav-text">创建数据库连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试连接"><span class="nav-number">9.</span> <span class="nav-text">测试连接</span></a></li></ol></div>
             
           </div>
         </section>
